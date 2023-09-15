@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     # include the providers you want to enable:
-    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.amazon_cognito',
 
 ]
 
@@ -66,12 +67,20 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
+    'amazon_cognito': {
+        'DOMAIN': 'https://us-east-2.auth.us-east-1.amazoncognito.com',
+        'APP': {
+        'client_id': '35ehknpgi8ul8nfn2undd6ufro',
+        'secret': '',
+        'key': ''
+        }
+    }
 }
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

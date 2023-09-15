@@ -6,5 +6,10 @@ if [ "$sourced" != "true" ]; then
     exit 1
 fi
 source venv/bin/activate
-echo "DjangoRestApisPostgreSQL/start.sh: Sourced OK"
+if [[ "$?" == 0 ]]; then
+  echo "Sourced OK (called from ${BASH_SOURCE[1]})"
+else
+  echo "ERROR: activation failed (called from ${BASH_SOURCE[1]})"
+fi
+echo Done
 
