@@ -3,7 +3,9 @@ Resources:
 - https://python.plainenglish.io/proper-way-of-using-google-authentication-with-django-and-django-allauth-part-2-c47b87dd1283
 - https://python.plainenglish.io/proper-way-of-using-google-authentication-with-django-and-django-allauth-b77f429e3f5d
 - youtube https://www.youtube.com/watch?v=GQySb3W2feo
-
+- https://docs.djangoproject.com/en/4.2/topics/auth/default/
+- https://www.google.com/search?q=multiple+django+admin+apps+single+authorization
+- https://www.w3schools.com/django/django_template_variables.php
 
 python3 -m venv venv
 source venv/bin/activate (or source ./activate.sh)
