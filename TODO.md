@@ -17,13 +17,13 @@ Keys
 - Google - 
 
 Summary
-- SRA - Client calls express/passportjs backend to help authenticate.  User info passed from backend to client with /auth/user route.
-- SOC - Django app integrated with single sign on using allauth and social accounts.
+- SRA - Client calls express/passportjs backend to help authenticate with google.  User info passed from backend to client with /auth/user route.
+- SOC - Django app integrated with single sign on using allauth and social accounts.  Configured for Amazon Cognito.
 
 - [ ] **Update Status**
   - [x] SRA - compare to github and review code
   - [x] SRA - update summary and CONTRIBUTING.md
-  - [ ] SOC - update summary and CONTRIBUTING.md
+  - [X] SOC - update summary and CONTRIBUTING.md
   - [ ] PPD - understand how APIs auto generated, document in CONTRIBUTING.md and summary
 
 - [ ] **SRA display token**

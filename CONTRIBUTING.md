@@ -44,7 +44,12 @@ Adding data to SOCIAL APPS, SOCIAL ACCOUNTS can skip
 21:33 - Google login screen now avaible.  Redirects to profile
 How to change redirect and create a page
 - add REDIRECT_URL="home/" to settings.py
-- add this to TEMPLATES section of settings.py:         'DIRS': [os.path.join(BASE_DIR,'templates')]
+- add this to TEMPLATES section of settings.py:
+
+```
+'DIRS': [os.path.join(BASE_DIR,'templates')]
+```
+
 - add this to URLS.py
 ```
 from django.views.generic import TemplateView
