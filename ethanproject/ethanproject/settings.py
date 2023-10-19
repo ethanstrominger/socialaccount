@@ -33,8 +33,8 @@ ALLOWED_HOSTS = ['localhost']
 
 INSTALLED_APPS = [
     'ethanapp',
-    'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework',
+    # 'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,7 +71,7 @@ AUTHENTICATION_BACKENDS = [
 
 SOCIALACCOUNT_PROVIDERS = {
     'amazon_cognito': {
-        'DOMAIN': 'https://us-east-2.auth.us-east-1.amazoncognito.com',
+        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
         'APP': {
         'client_id': '35ehknpgi8ul8nfn2undd6ufro',
         'secret': '',
@@ -129,6 +129,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+LOGIN_REDIRECT_URL = 'home'
+
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
