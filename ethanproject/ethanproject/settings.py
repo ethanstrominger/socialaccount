@@ -35,8 +35,8 @@ ALLOWED_HOSTS = ['localhost']
 
 INSTALLED_APPS = [
     'ethanapp',
-    # 'rest_framework',
-    # 'rest_framework.authtoken',
+    'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,17 +70,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-SOCIALACCOUNT_PROVIDERS = {
-    'amazon_cognito': {
-        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
-        'APP': {
-        'client_id': '35ehknpgi8ul8nfn2undd6ufro',
-        'secret': '',
-        'key': ''
-        }
-    }
-}
 
 TEMPLATES = [
     {

@@ -17,9 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from rest_framework import routers
+from ethanapp.views import UserViewSet
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('home/', TemplateView.as_view(template_name='common/home.html'), name='home'),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -18,17 +18,20 @@ Keys
 
 Summary
 - SRA - Client calls express/passportjs backend to help authenticate with google.  User info passed from backend to client with /auth/user route.
-- SOC - Django app integrated with single sign on using allauth and social accounts.  Configured for Amazon Cognito.
+- SOC - Django app integrated with single sign on using allauth and social accounts.  Rest framework without authorization implemented.  Configured for Amazon Cognito.
 
 - [ ] **Update Status**
   - [x] SRA - compare to github and review code
   - [x] SRA - update summary and CONTRIBUTING.md
   - [X] SOC - update summary and CONTRIBUTING.md
-  - [ ] PPD - understand how APIs auto generated, document in CONTRIBUTING.md and summary
+  - [x] PPD - understand how APIs auto generated, document in CONTRIBUTING.md and summary
 
 - [ ] **SRA display token**
   - [ ] Display token after login
 
+- [ ] **SRA/SOC display movies if logged in**
+  - [ ]
+  - [ ] Add API for getting profile and
 - [ ] **SRA gets list of all accounts in SOC if role SRA_MAINTAINER from frontend**
   - [ ] SOC - add view accounts to SRA_MAINTAINER
   - [ ] SRA - create screen to display accounts
@@ -63,6 +66,7 @@ Summary
 - [ ] Create technologies table
 - [ ] Rename socialaccount-django-admin-allauth
 - [ ] Consider using husky
+- [ ] Figure out why signup requires manually confirming
 
 # peopledepot
 - [ ] Understand how APIs generated
