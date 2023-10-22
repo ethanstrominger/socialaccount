@@ -10,25 +10,49 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import json
 import os
-from ethanproject.credentials.envsettings import SOCIALACCOUNT_PROVIDERS
+from ethanproject.credentials.envsettings import SOCIALACCOUNT_PROVIDERS, DEBUG
 from pathlib import Path
+from urllib import request
+import dotenv
+dotenv.load_dotenv()
 
-print('SAP', SOCIALACCOUNT_PROVIDERS)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(#%22nuwg2m2q3mpct0z^j0py7fb^_21-^b!s-f5$1254you^b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ['localhost']
+
+
+# Cognito stuff
+SECRET_KEY = os.environ.get("SECRET_KEY")
+print("SECRET KEY", SECRET_KEY
+)
+COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
+COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+# Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
+# `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
+COGNITO_AUDIENCE = None
+COGNITO_POOL_URL = (
+    None  # will be set few lines of code later, if configuration provided
+)
+
+rsa_keys = {}
+# To avoid circular imports, we keep this logic here.
+# On django init we download jwks public keys which are used to validate jwt tokens.
+# For now there is no rotation of keys (seems like in Cognito decided not to implement it)
+if COGNITO_AWS_REGION and COGNITO_USER_POOL:
+    COGNITO_POOL_URL = (
+        f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
+    )
+    pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
+    jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
+    rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
 
 
 # Application definition
@@ -70,6 +94,45 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ("core.api.permissions.DenyAny",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+    ),}
+
+# COGNITO / JWT stuff
+# Cognito stuff
+COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
+COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+# Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
+# `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
+COGNITO_AUDIENCE = None
+COGNITO_POOL_URL = (
+    None  # will be set few lines of code later, if configuration provided
+)
+
+rsa_keys = {}
+# To avoid circular imports, we keep this logic here.
+# On django init we download jwks public keys which are used to validate jwt tokens.
+# For now there is no rotation of keys (seems like in Cognito decided not to implement it)
+if COGNITO_AWS_REGION and COGNITO_USER_POOL:
+    COGNITO_POOL_URL = (
+        f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
+    )
+    pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
+    jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
+    rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
+
+JWT_AUTH = {
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+    "JWT_PUBLIC_KEY": rsa_keys,
+    "JWT_ALGORITHM": "RS256",
+    "JWT_AUDIENCE": COGNITO_AUDIENCE,
+    "JWT_ISSUER": COGNITO_POOL_URL,
+    "JWT_AUTH_HEADER_PREFIX": "Bearer",
+}
 
 TEMPLATES = [
     {
@@ -119,6 +182,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 
 LOGIN_REDIRECT_URL = 'home'
