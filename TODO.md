@@ -26,8 +26,19 @@ Summary
   - [X] SOC - update summary and CONTRIBUTING.md
   - [x] PPD - understand how APIs auto generated, document in CONTRIBUTING.md and summary
 
+- [ ] **SRA gets list of all accounts in SOC if role SRA_MAINTAINER from frontend**
+  - [ ] SOC - add view accounts to SRA_MAINTAINER
+  - [ ] SRA - create screen to display accounts
+
+- [ ] **SRA gets list of all accounts in SOC if role SRA_MAINTAINER from frontend**
+  - [ ] SOC - add view accounts to SRA_MAINTAINER
+  - [ ] SRA - create screen to display accounts
+
 - [ ] **SRA/SOC display movies if logged in**
-  - [ ] Copy JWT code
+  - [ ] Add movies and people
+  - [ ] Understand better InLine and Admin, particularly ["name"]
+  - [X] Copy JWT code
+  - [ ] Remove JWT code
   - [ ] Get token manually (see CONTRIBUtiNG from peopledepot)
   - [ ] Try token to see if API gives permissions
   - [ ] Look at code for getting token
@@ -36,9 +47,6 @@ Summary
 - [ ] **SRA display token**
   - [ ] Display token after login https://stackoverflow.com/questions/64991155/how-do-i-get-a-token-from-django-allauth-socialaccount
 
-- [ ] **SRA gets list of all accounts in SOC if role SRA_MAINTAINER from frontend**
-  - [ ] SOC - add view accounts to SRA_MAINTAINER
-  - [ ] SRA - create screen to display accounts
 
 - [ ] **View technologies in SOC if role SRA_MAINTAINER**
   - [ ] SOC - Create technologies table
@@ -89,6 +97,7 @@ Summary
 - [ ] Consider using husky
 
 # knowledgebase
+- [ ] Fix many to many so refer to table
 - [ ] Take learnings from above
   - [ ] Implement sso for cognito
 - [ ] Consider using husky

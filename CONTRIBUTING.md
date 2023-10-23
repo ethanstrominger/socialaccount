@@ -148,3 +148,10 @@ Remember that these steps provide a basic setup for using AWS Amplify in a React
 
 Access Key AKIAZCDXVD2ZLX2H74X5
 Secret Access Key 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
+
+Add new models
+Update urls
+Copy personModel, personSerializer, personView
+
+Many to Many
+If relationship is meaningful then create a new model that includes both and use inLine.  Many to many method will let you select and deselect using Command-click.
