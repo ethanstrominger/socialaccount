@@ -12,11 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import json
 import os
-from ethanproject.credentials.envsettings import SOCIALACCOUNT_PROVIDERS, DEBUG
 from pathlib import Path
 from urllib import request
 import dotenv
 dotenv.load_dotenv()
+
+DEBUG = os.environ.get('DEBUG')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,6 +35,7 @@ print("SECRET KEY", SECRET_KEY
 )
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+SOCIAL_ACCOUNT_PROVIDERS = os.environ.get('SOCIAL_ACCOUNT_PROVIDERS')
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
