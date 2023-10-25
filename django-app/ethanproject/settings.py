@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+import dotenv
+dotenv.load_dotenv()
+
+DEBUG = os.environ.get('DEBUG')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -65,17 +69,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-SOCIALACCOUNT_PROVIDERS = {
-    'amazon_cognito': {
-        'DOMAIN': 'https://us-east-2.auth.us-east-1.amazoncognito.com',
-        'APP': {
-        'client_id': '35ehknpgi8ul8nfn2undd6ufro',
-        'secret': '',
-        'key': ''
-        }
-    }
-}
 
 TEMPLATES = [
     {

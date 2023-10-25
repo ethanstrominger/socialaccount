@@ -72,6 +72,8 @@ WIP: Tokens view.  I added token view to make it easier to get token so I could 
 - `python3 manage.py makemigrations rest_framework.auth_token`  
 See https://stackoverflow.com/questions/14838128/django-rest-framework-token-authentication step 7.
 
+Change to read vars from .env
+
 # Amazon Cognito Set Up
 Follow instructions on amazon for setting up a user pool.  This will include creating an app.
 
@@ -79,79 +81,9 @@ When setting up an app, outstanding questions:
  - Do you need to include Implicit Grant?  Currently, I did.
  - This URL should give you a token (in the URL): https://peopledepot.auth.us-east-2.amazoncognito.com/login?client_id=35ehknpgi8ul8nfn2undd6ufro&response_type=token&scope=openid&redirect_uri=http://localhost:8000/admin/
 
-From chatgpt:
-Step 1: Install Amplify CLI
-
-The Amplify CLI (Command Line Interface) is a toolchain for building and managing AWS Amplify projects. You can install it globally using npm:
-
-bash
-Copy code
-npm install -g @aws-amplify/cli
-Step 2: Configure Amplify
-
-After installing the Amplify CLI, you need to configure it to interact with your AWS account. Run the following command and follow the prompts:
-
-bash
-Copy code
-amplify configure
-This command will guide you through the AWS Amplify configuration process, including setting up your AWS IAM (Identity and Access Management) user, selecting your AWS region, and configuring the CLI with your AWS credentials.
-
-Step 3: Create a New Amplify Project
-
-Now, you can create a new AWS Amplify project in your React application directory:
-
-bash
-Copy code
-amplify init
-This command will prompt you to provide some information about your project, such as the project name, environment name, and default text editor. You can choose the default options for most of these prompts.
-
-Step 4: Add Amplify Services
-
-You can add Amplify services to your project based on your requirements. For example, to add authentication, you can run:
-
-bash
-Copy code
-amplify add auth
-This command will guide you through configuring authentication with Amazon Cognito. You can similarly add other services like API (for AWS AppSync), storage, and more using the amplify add command.
-
-Step 5: Push Your Configuration
-
-After adding services to your Amplify project, you need to push the configuration to your AWS account:
-
-bash
-Copy code
-amplify push
-This command will provision the necessary AWS resources and configure your backend services based on the Amplify configuration you specified.
-
-Step 6: Integrate Amplify in Your React App
-
-You will need to import and configure Amplify in your React application. Typically, this is done in your index.js or App.js file:
-
-javascript
-Copy code
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-Make sure to replace './aws-exports' with the correct path to your Amplify configuration file.
-
-Step 7: Start Your React App
-
-With Amplify configured, you can now start your React application:
-
-bash
-Copy code
-npm start
-Your React app will be running locally, and you can use Amplify services like authentication, storage, and APIs as needed within your application.
-
-Remember that these steps provide a basic setup for using AWS Amplify in a React application. Depending on your project's requirements, you may need to add and configure additional services and adapt your code accordingly. Amplify offers various services for common cloud functionalities, and you can choose the ones that suit your project's needs.
-
-Access Key AKIAZCDXVD2ZLX2H74X5
-Secret Access Key i5d7lQd1LZnpB/v5Y9RUuJaqF9eLeqhJ4dkY+CjG
-
-Add new models
+# Add new models
 Update urls
 Copy personModel, personSerializer, personView
 
-Many to Many
+# Many to Many
 If relationship is meaningful then create a new model that includes both and use inLine.  Many to many method will let you select and deselect using Command-click.

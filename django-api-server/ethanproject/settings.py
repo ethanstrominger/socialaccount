@@ -31,11 +31,12 @@ ALLOWED_HOSTS = ['localhost']
 
 # Cognito stuff
 SECRET_KEY = os.environ.get("SECRET_KEY")
-print("SECRET KEY", SECRET_KEY
-)
+print("SECRET KEY", SECRET_KEY)
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
-SOCIAL_ACCOUNT_PROVIDERS = os.environ.get('SOCIAL_ACCOUNT_PROVIDERS')
+SOCIALACCOUNT_PROVIDERS_STR = os.environ.get('SOCIALACCOUNT_PROVIDERS')
+print("SOCAL", SOCIALACCOUNT_PROVIDERS_STR)
+SOCIALACCOUNT_PROVIDERS = json.loads(SOCIALACCOUNT_PROVIDERS_STR)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
