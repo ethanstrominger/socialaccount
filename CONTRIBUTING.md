@@ -43,7 +43,12 @@ Adding data to SOCIAL APPS, SOCIAL ACCOUNTS can skip
 
 21:33 - Google login screen now avaible.  Redirects to profile
 How to change redirect and create a page
-- add REDIRECT_URL="home/" to settings.py
+- add to settings.py
+```
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+```
+
 - add this to TEMPLATES section of settings.py:
 
 ```
@@ -85,5 +90,8 @@ When setting up an app, outstanding questions:
 Update urls
 Copy personModel, personSerializer, personView
 
-# Many to Many
+# Activating env
+./create-env.sh (will create <$PWD>-venv env)
+./activate.sh (will activate $PWD-venv env)
+# Many to Many 
 If relationship is meaningful then create a new model that includes both and use inLine.  Many to many method will let you select and deselect using Command-click.
