@@ -24,12 +24,26 @@ Demo of app that will be bult
 Time 6:00
 Goes through instructions below
 
-Follow instructions in https://django-allauth.readthedocs.io/en/latest/installation/quickstart.html
-    pip install django-allauth
-    Make file changes
-    Watch out for duplicate entries, especially in INSTALLED_APPS
+Follow instructions in https://django-allauth.readthedocs.io/en/latest/installation/quickstart.html with following exceptions: 
+  - change `pip install django-allauth` to `python3 -m pip install django-allauth`
+  - for each auth provider, add to social accounts table rather than config
+Here is a summary of the steps:
+
+    python3 -m pip install django-allauth
+    Make file changes as indicated in the article
     python3 manage.py migrate
 
+SOCIALACCOUNT_PROVIDERS = {
+    'amazon_cognito': {
+        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
+        'APP': {
+            'client_id': f'{COGNITO_CLIENT_ID}',
+            'client_secret': f'{COGNITO_CLIENT_SECRET}',
+            'secret': '',
+            'key': ''
+        }
+    }
+}
 9:50
 - Modify settings.py.  Change ALLOWED_HOSTS=[] to ALLOWED_HOSTS=["localhost"]
 - python3 manage.py runserver
@@ -77,21 +91,31 @@ WIP: Tokens view.  I added token view to make it easier to get token so I could 
 - `python3 manage.py makemigrations rest_framework.auth_token`  
 See https://stackoverflow.com/questions/14838128/django-rest-framework-token-authentication step 7.
 
-Change to read vars from .env
-
-# Amazon Cognito Set Up
-Follow instructions on amazon for setting up a user pool.  This will include creating an app.
-
-When setting up an app, outstanding questions:
- - Do you need to include Implicit Grant?  Currently, I did.
- - This URL should give you a token (in the URL): https://peopledepot.auth.us-east-2.amazoncognito.com/login?client_id=35ehknpgi8ul8nfn2undd6ufro&response_type=token&scope=openid&redirect_uri=http://localhost:8000/admin/
-
+Change to read vars from .env 
 # Add new models
 Update urls
 Copy personModel, personSerializer, personView
 
 # Activating env
 ./create-env.sh (will create <$PWD>-venv env)
-./activate.sh (will activate $PWD-venv env)
+source ./activate.sh (will activate $PWD-venv env)
 # Many to Many 
 If relationship is meaningful then create a new model that includes both and use inLine.  Many to many method will let you select and deselect using Command-click.
+
+
+# Amazon Cognito Set Up
+Follow instructions on amazon for setting up a user pool.  This will include creating an app.
+
+- Create user pool
+- Create an app
+  - Select option to generate client secret key for extra security
+  - Enter into Allowed callback URLs
+  ```
+  localhost:8000/amazon-cognito/login/callback/
+  localhost:8000/admin
+  ```
+  - Enter into Allowed sign-out URLs 
+  ```
+  https://localhost:8000/admin/signout
+  ```
+  

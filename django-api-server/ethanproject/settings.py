@@ -34,9 +34,21 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 print("SECRET KEY", SECRET_KEY)
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
-SOCIALACCOUNT_PROVIDERS_STR = os.environ.get('SOCIALACCOUNT_PROVIDERS')
-print("SOCAL", SOCIALACCOUNT_PROVIDERS_STR)
-SOCIALACCOUNT_PROVIDERS = json.loads(SOCIALACCOUNT_PROVIDERS_STR)
+COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID", default=None)
+COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET", default=None)
+
+SOCIALACCOUNT_PROVIDERS = {
+    'amazon_cognito': {
+        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
+        'APP': {
+            'client_id': f'{COGNITO_CLIENT_ID}',
+            'client_secret': f'{COGNITO_CLIENT_SECRET}',
+            'secret': '',
+            'key': ''
+        }
+    }
+}
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
