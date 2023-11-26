@@ -47,26 +47,27 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': '',
             'key': ''
         }
-    }
-}
+    },
+ }
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
-
+print('debug cognito', COGNITO_AWS_REGION, COGNITO_USER_POOL)
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
 # On django init we download jwks public keys which are used to validate jwt tokens.
 # For now there is no rotation of keys (seems like in Cognito decided not to implement it)
-if COGNITO_AWS_REGION and COGNITO_USER_POOL:
-    COGNITO_POOL_URL = (
-        f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
-    )
-    pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
-    jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
-    rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
+# if COGNITO_AWS_REGION and COGNITO_USER_POOL:
+#     COGNITO_POOL_URL = (
+#         f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
+#     )
+#     print('COGNITO_URL', COGNITO_POOL_URL)
+#     pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
+#     jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
+#     rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
 
 
 # Application definition
@@ -88,7 +89,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # include the providers you want to enable:
     'allauth.socialaccount.providers.amazon_cognito',
-
 ]
 
 MIDDLEWARE = [
@@ -105,8 +105,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'ethanproject.urls'
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 REST_FRAMEWORK = {

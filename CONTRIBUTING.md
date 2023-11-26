@@ -11,31 +11,44 @@ Resources:
 python3 -m venv venv
 source venv/bin/activate (or source ./activate.sh)
 Add venv to .gitignore
-pip install django
+python -m pip install django
+python -m pip install psycopg2==2.7.4
 django-admin startproject ethanproject
 cd ethanproject
 python3 manage.py createsuperuser
 python3 manage.py startapp ethanapp
-https://django-allauth.readthedocs.io/en/latest/installation/quickstart.html
+python3 -m pip install load_dotenv
 
-- youtube https://www.youtube.com/watch?v=GQySb3W2feo
-Time: 0
-Demo of app that will be bult
-Time 6:00
-Goes through instructions below
+import dotenv
+dotenv.load_dotenv()
+
+Create .env file
+DEBUG = 1
+SECRET_KEY = foo3
+COGNITO_AWS_REGION=us-east-2
+COGNITO_USER_POOL=us-east-2_i2EKGBFG1
+COGNITO_CLIENT_ID=35ehknpgi8ul8nfn2undd6ufro
+COGNITO_DOMAIN=peopledepot
+COGNITO_URL=f'https://{COGNITO_DOMAIN}/auth.{COGNITO_AWS_REGION}.amazoncognito.com'
+
+In settings.py:
+
+COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
+COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID", default=None)
+COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET", default=None)
+COGNITO_DOMAIN=os.environ.get("COGNITO_DOMAIN", default=None)
+COGNITO_URL=os.environ.get("COGNITO_URL", default=None)
+
 
 Follow instructions in https://django-allauth.readthedocs.io/en/latest/installation/quickstart.html with following exceptions: 
   - change `pip install django-allauth` to `python3 -m pip install django-allauth`
-  - for each auth provider, add to social accounts table rather than config
-Here is a summary of the steps:
+  - for SOCIALACCOUNT_PROVIDERS, do not hard code in values in settings.py.  Here is an example of how you could do that:
 
-    python3 -m pip install django-allauth
-    Make file changes as indicated in the article
-    python3 manage.py migrate
-
-SOCIALACCOUNT_PROVIDERS = {
+  SOCIALACCOUNT_PROVIDERS = {
     'amazon_cognito': {
-        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
+        'DOMAIN': f'{COGNITO_URL}',
         'APP': {
             'client_id': f'{COGNITO_CLIENT_ID}',
             'client_secret': f'{COGNITO_CLIENT_SECRET}',
@@ -44,22 +57,15 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
-9:50
+
+- Follow instructions in https://docs.allauth.org/en/latest/socialaccount/providers/index.html
+
 - Modify settings.py.  Change ALLOWED_HOSTS=[] to ALLOWED_HOSTS=["localhost"]
 - python3 manage.py runserver
-Ignore "site_id" comments
 
-11:50
-Follow instructions in https://docs.allauth.org/en/latest/socialaccount/providers/index.html
 
-18:30
-Adding data to SOCIAL APPS, SOCIAL ACCOUNTS can skip
-
-21:33 - Google login screen now avaible.  Redirects to profile
-How to change redirect and create a page
-- add to settings.py
 ```
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = '/admin/'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 ```
 
@@ -76,22 +82,26 @@ from django.views.generic import TemplateView
     path('home/', TemplateView.as_view(template_name='common/home.html'), name='home'),
 
 ```
+- create templates/socialaccount directory
+- create authorization_error.html:
+```
+Single signon error.  Inform the admin.  Detail error:
+
+{{ authorization_error }}
+```
+- Instructions on how to change admin
+- Figure out how to continue to original URL
+- Make for a prettier log in screen
+- tokens url
 
 
 
 
-
-
-If you get a message about duplicate when you log in, try removing entry from settings.py if you specified credential info in that file.
-
-Register google (https://django-allauth.readthedocs.io/en/latest/socialaccount/providers/google.html)
-22:00
 
 WIP: Tokens view.  I added token view to make it easier to get token so I could display it on the screen.  I found out there is a built in view and template that lets you do that.  To get tokens to work, I had to:
 - `python3 manage.py makemigrations rest_framework.auth_token`  
 See https://stackoverflow.com/questions/14838128/django-rest-framework-token-authentication step 7.
 
-Change to read vars from .env 
 # Add new models
 Update urls
 Copy personModel, personSerializer, personView
@@ -101,7 +111,6 @@ Copy personModel, personSerializer, personView
 source ./activate.sh (will activate $PWD-venv env)
 # Many to Many 
 If relationship is meaningful then create a new model that includes both and use inLine.  Many to many method will let you select and deselect using Command-click.
-
 
 # Amazon Cognito Set Up
 Follow instructions on amazon for setting up a user pool.  This will include creating an app.

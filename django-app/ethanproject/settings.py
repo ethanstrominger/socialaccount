@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # include the providers you want to enable:
     'allauth.socialaccount.providers.amazon_cognito',
+    'allauth.socialaccount.providers.google'
 
 ]
 
