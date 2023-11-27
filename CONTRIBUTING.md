@@ -112,6 +112,18 @@ source ./activate.sh (will activate $PWD-venv env)
 # Many to Many 
 If relationship is meaningful then create a new model that includes both and use inLine.  Many to many method will let you select and deselect using Command-click.
 
+# Upgrading packages
+Use poetry or pur.  Instructions for pur:
+- Change all occurences of ~= to == in requirements.txt except for versions you want to pin
+- For versions you want to pin the first two versions, change to ~= 
+- For versions you want to pin all three versions, change to >=4.2.5, <=4.2.5 
+- Install pur, if not done `python -m pip install pur`
+- Upgrade requirements.txt: `python -m pur -r requirements.txt`
+- Review changes
+- `python -m pip install -r requirements.txt`
+- Test
+- If satisfiled, stage and commit requirements.txt
+
 # Amazon Cognito Set Up
 Follow instructions on amazon for setting up a user pool.  This will include creating an app.
 
